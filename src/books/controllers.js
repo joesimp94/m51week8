@@ -1,7 +1,4 @@
-const { Request } = require("express");
 const Book = require("./model");
-const { Sequelize } = require("sequelize");
-const connection = require("../db/connection");
 
 const addBook = async (req, res) => {
   const newBook = await Book.create({
