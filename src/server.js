@@ -15,11 +15,14 @@ app.use(express.json());
 
 app.use("/books", bookRouter);
 
-app.use(authorRouter);
+app.use("/authors", authorRouter);
 
 const syncTables = async () => {
-  await Book.sync();
+  await Author.hasMany(Book);
+  await Book.belongsTo(Author);
+
   await Author.sync();
+  await Book.sync();
 };
 
 app.get("/health", (req, res) => {
