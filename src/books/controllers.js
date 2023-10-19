@@ -2,12 +2,8 @@ const Book = require("./model");
 
 const addBook = async (req, res) => {
   try {
-    const newBook = await Book.create({
-      title: req.body.title,
-      author: req.body.author,
-      genre: req.body.genre,
-    });
-
+    const newBook = await Book.create(req.body);
+    console.log(newBook);
     res.status(201).json({ message: "Success!", newBook });
   } catch (error) {
     if (error.name === "SequelizeUniqueConstraintError") {
@@ -19,15 +15,17 @@ const addBook = async (req, res) => {
 };
 
 const findAllBooks = async (req, res) => {
-  console.log(req.originalUrl);
-  const books = await Book.findAll({});
+  try {
+    const books = await Book.findAll({});
 
-  const successResponse = {
-    message: "Success!",
-    books,
-  };
-
-  res.send(successResponse);
+    if (books.length >= 1) {
+      res.status(200).json({ message: "success", books });
+      return;
+    }
+    res.status(404).json({ message: "failure" });
+  } catch (error) {
+    res.status(500).json({ message: error.message, error });
+  }
 };
 
 const findBookByAuthor = async (req, res) => {

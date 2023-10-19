@@ -5,8 +5,8 @@ const Author = require("./model");
 
 const { addAuthor, findAllAuthorsBooks } = require("./controllers");
 
-authorRouter.post("/authors", addAuthor);
+authorRouter.post("/", addAuthor);
 
-authorRouter.get("/authors/:author", findAllAuthorsBooks);
+authorRouter.get("/:author", findAllAuthorsBooks);
 
 module.exports = authorRouter;

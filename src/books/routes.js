@@ -1,8 +1,6 @@
 const { Router } = require("express");
 const bookRouter = Router();
 
-const Book = require("./model");
-
 const {
   addBook,
   findAllBooks,
@@ -16,11 +14,11 @@ bookRouter.post("/", addBook);
 
 bookRouter.get("/", findAllBooks);
 
-bookRouter.get("/books/:author", findBookByAuthor);
+bookRouter.get("/:author", findBookByAuthor);
 
 bookRouter.delete("/", deleteSingle);
 
-bookRouter.delete("/books/wipeDB", wipeDatabase);
+bookRouter.delete("/wipeDB", wipeDatabase);
 
 bookRouter.put("/", editName);
 
