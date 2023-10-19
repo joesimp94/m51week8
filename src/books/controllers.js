@@ -1,18 +1,21 @@
 const Book = require("./model");
 
 const addBook = async (req, res) => {
-  const newBook = await Book.create({
-    title: req.body.title,
-    author: req.body.author,
-    genre: req.body.genre,
-  });
+  try {
+    const newBook = await Book.create({
+      title: req.body.title,
+      author: req.body.author,
+      genre: req.body.genre,
+    });
 
-  const successResponse = {
-    message: "Success!",
-    newBook: newBook,
-  };
-
-  res.send(successResponse);
+    res.status(201).json({ message: "Success!", newBook });
+  } catch (error) {
+    if (error.name === "SequelizeUniqueConstraintError") {
+      res.status(412).json({ message: error.message, error });
+      return;
+    }
+    res.status(500).json({ message: error.message, error });
+  }
 };
 
 const findAllBooks = async (req, res) => {
@@ -21,7 +24,7 @@ const findAllBooks = async (req, res) => {
 
   const successResponse = {
     message: "Success!",
-    books: books,
+    books,
   };
 
   res.send(successResponse);
@@ -35,7 +38,7 @@ const findBookByAuthor = async (req, res) => {
   if (bookAuthor) {
     const successResponse = {
       message: "Success!",
-      bookAuthor: bookAuthor,
+      bookAuthor,
     };
     res.send(successResponse);
   } else {
@@ -53,7 +56,7 @@ const deleteSingle = async (req, res) => {
 
   const successResponse = {
     message: "Success!",
-    deleteBook: deleteBook,
+    deleteBook,
   };
 
   res.send(successResponse);
@@ -66,7 +69,7 @@ const wipeDatabase = async (req, res) => {
 
   const successResponse = {
     message: "Database has successfully been wiped.",
-    deleteAll: deleteAll,
+    deleteAll,
   };
 
   res.send(successResponse);
@@ -80,17 +83,17 @@ const editName = async (req, res) => {
 
   const successResponse = {
     message: "Success!",
-    updatedBook: updatedBook,
+    updatedBook,
   };
 
   res.send(successResponse);
 };
 
 module.exports = {
-  addBook: addBook,
-  findAllBooks: findAllBooks,
-  findBookByAuthor: findBookByAuthor,
-  deleteSingle: deleteSingle,
-  wipeDatabase: wipeDatabase,
-  editName: editName,
+  addBook,
+  findAllBooks,
+  findBookByAuthor,
+  deleteSingle,
+  wipeDatabase,
+  editName,
 };

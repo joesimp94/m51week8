@@ -12,16 +12,16 @@ const {
   editName,
 } = require("./controllers");
 
-bookRouter.post("/books", addBook);
+bookRouter.post("/", addBook);
 
-bookRouter.get("/books", findAllBooks);
+bookRouter.get("/", findAllBooks);
 
 bookRouter.get("/books/:author", findBookByAuthor);
 
-bookRouter.delete("/books", deleteSingle);
+bookRouter.delete("/", deleteSingle);
 
 bookRouter.delete("/books/wipeDB", wipeDatabase);
 
-bookRouter.put("/books", editName);
+bookRouter.put("/", editName);
 
 module.exports = bookRouter;
