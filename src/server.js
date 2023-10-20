@@ -10,6 +10,9 @@ const authorRouter = require("./authors/routes");
 const Genre = require("./genres/model");
 const genreRouter = require("./genres/routes");
 
+// const Publisher = require("./publishers/model");
+// const publisherRouter = require("./publishers/routes");
+
 const port = process.env.PORT || 5001;
 
 const app = express();
@@ -22,14 +25,23 @@ app.use("/authors", authorRouter);
 
 app.use("/genres", genreRouter);
 
+// app.use("/", publisherRouter);
+
 const syncTables = async () => {
   Author.hasMany(Book);
   Genre.hasMany(Book);
+  // Publisher.hasMany(Book);
+
+  // Author.hasMany(Publisher);
+  // Publisher.hasMany(Author);
+
   Book.belongsTo(Author);
   Book.belongsTo(Genre);
+  // Book.belongsTo(Publisher);
 
   await Author.sync();
   await Genre.sync();
+  // await Publisher.sync();
   await Book.sync();
 };
 
